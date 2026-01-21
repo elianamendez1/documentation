@@ -1,0 +1,24 @@
+{
+  "name": "documentacion-proyecto",
+  "version": "1.0.0",
+  "description": "Documentación viva Aurora",
+  "type": "module",
+  "scripts": {
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "devDependencies": {
+    "markdown-it-container": "^4.0.0",
+    "mermaid": "^10.0.0",
+    "vitepress": "^1.0.0",
+    "vue": "^3.3.0"
+  },
+  "keywords": [
+    "documentation",
+    "vitepress",
+    "vue3"
+  ],
+  "author": "LimaTours S.A",
+  "license": "MIT"
+}
