@@ -1,10 +1,10 @@
 ---
-title: "development flow.md" | title
+title: "development flow.md"
 description: En desarrollo - Pr√≥ximamente disponible
 editLink: false
 ---
 
-# Ì∫ß En Desarrollo
+# ÔøΩÔøΩÔøΩ En Desarrollo
 
 Contenido en preparaci√≥n. Esta secci√≥n formar√° parte del flujo completo de Product Owner.
 

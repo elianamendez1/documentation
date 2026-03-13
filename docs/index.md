@@ -1,26 +1,39 @@
 ---
 layout: home
-title: Proyecto Aurora
-titleTemplate: Documentación Viva
+
+title: Aurora Way
+titleTemplate: Documentación Viva!
 editLink: true
 lastUpdated: true
+
 hero:
-  name: Proyecto Aurora
-  text: Documentación Colaborativa
-  tagline: Un solo lugar para POs, desarrolladores y diseñadores
+  name: Aurora Way
+  text: El camino que seguimos
+  tagline: Un solo lugar para POs, y próximamente para desarrolladores y diseñadores
   actions:
     - theme: brand
       text: Comenzar aquí
-      link: /introduction/
+      link: /modules/introduction/
     - theme: alt
       text: Ver en GitHub
       link: https://github.com/tu-org/aurora-docs
   image:
-    src: /hero-image.png
+    src: /hero-aurora.jpg
     alt: Aurora
 
 features:
-  link: '/modules/'  #
+  - title: Módulos Técnicos
+    details: Documentación detallada de cada funcionalidad del sistema.
+    link: /modules/introduction/
+    icon: 📦
+  - title: Guía para POs
+    details: Espacio dedicado para la gestión y edición de contenidos.
+    link: /guia-po/
+    icon: 📖
+  - title: Roadmap
+    details: Seguimiento de fases y próximas mejoras del proyecto.
+    link: /historial
+    icon: 🚀
 ---
 
 ## Acceso Rápido

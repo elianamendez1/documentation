@@ -1,10 +1,10 @@
 ---
-title: "testing phases.md" | title
+title: "testing phases.md"
 description: En desarrollo - PrÃ³ximamente disponible
 editLink: false
 ---
 
-# íº§ En Desarrollo
+# ï¿½ï¿½ï¿½ En Desarrollo
 
 Contenido en preparaciÃ³n. Esta secciÃ³n formarÃ¡ parte del flujo completo de Product Owner.
 

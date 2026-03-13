@@ -4,23 +4,23 @@ description: M√≥dulo en desarrollo - Pr√≥ximamente disponible
 editLink: false
 ---
 
-# Ì∫ß M√≥dulo Series - En Desarrollo
+# ÔøΩÔøΩÔøΩ M√≥dulo Series - En Desarrollo
 
 Documentaci√≥n detallada en preparaci√≥n.
 
-## Ì≥ã Informaci√≥n B√°sica
+## ÔøΩÔøΩÔøΩ Informaci√≥n B√°sica
 
-- **Estado:** Ì∫ß En desarrollo
+- **Estado:** En desarrollo
 - **Responsable:** Equipo de Producto
 - **Estimaci√≥n:** Pr√≥ximas semanas
 
-## Ì¥ó Recursos Temporales
+## Recursos Temporales
 
 - [Documentaci√≥n general de m√≥dulos](/modules/)
 - [Gu√≠a de Product Owner](/product-owner-guide/)
 
 <div class="module-wip">
-  <h4>ÌøóÔ∏è Contenido Planeado</h4>
+  <h4>Contenido Planeado</h4>
   <p>Este m√≥dulo incluir√° documentaci√≥n completa sobre:</p>
   <ul>
     <li>Descripci√≥n del m√≥dulo y alcance</li>

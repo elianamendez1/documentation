@@ -1,4 +1,5 @@
 ﻿import { defineConfig } from "vitepress"
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
 export default defineConfig({
   // ========== CONFIGURACIÓN BÁSICA ==========
@@ -25,77 +26,62 @@ export default defineConfig({
     // ========== NAVEGACIÓN PRINCIPAL ==========
     nav: [
       { text: '🏠 Inicio', link: '/' },
+      { text: '📦 Módulos', link: '/modules/' },
       { text: '🎯 Guía PO', link: '/product-owner-guide/' },
-      { text: '📦 Módulos', link: '/modules/' },  // ← Así está bien
-      { text: '💻 Devs', link: '/developers/' },
-      { text: '🎨 Diseñadores', link: '/designers/' },
-      { text: '📚 Recursos', link: '/resources/' },
+      //{ text: '💻 Devs', link: '/developers/' },
+      //{ text: '🎨 Diseñadores', link: '/designers/' },
+      //{ text: '📚 Recursos', link: '/resources/' },
     ],
 
     // ========== SIDEBAR COMPLETA ==========
     sidebar: {
       // Sidebar para la página principal
-      "/": [
+      '/modules/': [
         {
-          text: '🚀 Introducción',
-          collapsible: true,
+          text: 'Introducción',
           collapsed: false,
           items: [
-            { text: '¿Para qué es este repositorio?', link: '/src/introduction/' }
+            { text: '🚀¿Repositorio, para qué?', link: '/modules/introduction/' },
+            { text: ' 📦 Descripción de Módulos', link: '/modules/' },
           ]
         },
 
         {
-          text: "👥 Guía de Product Owner",
-          collapsible: true,
-          collapsed: false,
+          text: 'Módulos',
           items: [
-            { text: 'Descripción', link: '/product-owner-guide/' },
-            { text: "📊 Recopilación de datos", link: "/product-owner-guide/data-collection" },
-            { text: "🔄 Transformación a requerimientos 🚧", link: "/product-owner-guide/requirements" },
-
-            { text: "🎨 Análisis y diseño UX 🚧", link: "/product-owner-guide/ux-analysis" },
-            { text: "⚙️ Flujo de desarrollo 🚧", link: "/product-owner-guide/development-flow" },
-            { text: "✅ Fases de pruebas 🚧", link: "/product-owner-guide/testing-phases" },
-            { text: "📝 Guía de documentación 🚧", link: "/product-owner-guide/documentation-guide" }
-          ]
-        },
-        {
-          text: '📦 Módulos 🚧',
-          collapsible: true,
-          collapsed: true,
-          items: [
-            { text: 'Descripción de Módulos', link: '/modules/' },
-            { 
-              text: '🤝 Negociaciones 🚧', 
-              link: '/modules/negotiations/',
-              badge: { text: '🚧', variant: 'tip' }, 
+            {
+              text: '🤝 Negociaciones 🚧', link: '/modules/negotiations/',
+              collapsed: true,
+              items: [
+                { text: 'Políticas de proveedores', link: '/modulos/negociaciones/politicas' },
+                { text: 'Comisiones', link: '/modulos/pagos/comisiones' }
+              ]
             },
-            { 
-              text: '💰 Cotizaciones 🚧', 
+            {
+              text: '💰 Cotizaciones 🚧',
               link: '/modules/quotations/',
               badge: { text: '🚧', variant: 'tip' }
             },
-            { 
-              text: '📁 Files 🚧', 
+            {
+              text: '📁 Files 🚧',
               link: '/modules/files/',
-              badge: { text: '🚧', variant: 'tip' } 
+              badge: { text: '🚧', variant: 'tip' }
             },
-            { 
-              text: '📊 Series 🚧', 
+            {
+              text: '📊 Series 🚧',
               link: '/modules/series/',
-              badge: { text: '🚧', variant: 'tip' } 
+              badge: { text: '🚧', variant: 'tip' }
             },
-            { 
-              text: '⚙️ Operaciones 🚧', 
+            {
+              text: '⚙️ Operaciones 🚧',
               link: '/modules/operations/',
               badge: { text: '🚧', variant: 'tip' }
             },
-            { 
+            /*{ 
               text: '📈 MASI 🚧', 
               link: '/modules/masi/',
               badge: { text: '🚧', variant: 'tip' } 
-            }
+            }*/
           ]
         },
         /*{
@@ -128,22 +114,35 @@ export default defineConfig({
           ]
         }*/
       ],
-      '/src/introduction/': [
+      '/product-owner-guide/': [
         {
-          text: 'Introducción',
+          text: "Guía Product Owner",
           items: [
-            { text: '¿Para qué es este repositorio?', link: '/src/introduction/' }
+            { text: ' Descripción', link: '/product-owner-guide/' },
+            { text: " Recopilación de datos", link: "/product-owner-guide/data-collection" },
+            { text: " Requerimientos 🚧", link: "/product-owner-guide/requirements" },
+            { text: " Análisis y diseño UX 🚧", link: "/product-owner-guide/ux-analysis" },
+            { text: " Flujo de desarrollo 🚧", link: "/product-owner-guide/development-flow" },
+            { text: " Fases de pruebas 🚧", link: "/product-owner-guide/testing-phases" },
+            { text: " Guía de documentación 🚧", link: "/product-owner-guide/documentation-guide" }
+
           ]
-        }
+        },
+
       ]
+    },
+
+    mermaid: {
+      // Configuración opcional de tema
+      theme: 'neutral', 
     },
 
 
 
     // ========== FOOTER ==========
     footer: {
-      message: "AURORA Knowledge Repository",
-      copyright: `© ${new Date().getFullYear()} AURORA`
+      message: "Repositorio AURORA",
+      copyright: `© ${new Date().getFullYear()} LIMA TOURS`
     },
 
     // ========== BÚSQUEDA ==========

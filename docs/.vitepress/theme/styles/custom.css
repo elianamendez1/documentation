@@ -1,0 +1,51 @@
+/* Estilos personalizados adicionales */
+:root {
+  /* El rojo principal de LimaTours */
+  --vp-c-brand-1: #b22222; /* Rojo base */
+  --vp-c-brand-2: #8b0000; /* Un poco más oscuro para el hover */
+  --vp-c-brand-3: #ff0000; /* Un poco más claro */
+  
+  /* Esto vincula el color de marca antiguo con el nuevo sistema */
+  --vp-c-brand: var(--vp-c-brand-1);
+}
+
+/* Seleccionamos el contenedor exacto del nombre en el Home */
+.VPHero .name {
+  background: linear-gradient(
+    135deg, 
+    #8b0000 20%, 
+    #b22222 50%, 
+    #8b0000 80%
+  ) !important;
+  
+  /* Truco para que el fondo se vuelva el color de la letra */
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  
+  /* Ajustes de tamaño y peso para que luzca como VitePress */
+  font-size: 64px;
+  line-height: 1.2;
+  font-weight: 800;
+  display: inline-block;
+}
+
+.VPHero .name {
+  filter: drop-shadow(0 0 30px rgba(178, 34, 34, 0.3)) !important; 
+}
+
+/* Opcional: Si quieres que el botón "Comenzar" tenga un degradado elegante */
+.VPButton.brand {
+  --vp-button-brand-bg: var(--vp-c-brand-1);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-2);
+}
+
+:root {
+  --vp-c-figma: #0acf83;
+  --vp-c-figma-soft: rgba(10, 207, 131, 0.1);
+}
+
+.dark {
+  --vp-c-figma: #00d4aa;
+  --vp-c-figma-soft: rgba(0, 212, 170, 0.15);
+}

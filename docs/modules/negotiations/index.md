@@ -4,23 +4,36 @@ description: M√≥dulo en desarrollo - Pr√≥ximamente disponible
 editLink: false
 ---
 
-# Ì∫ß M√≥dulo Negotiations - En Desarrollo
+# M√≥dulo Negociaciones - En Desarrollo
 
-Documentaci√≥n detallada en preparaci√≥n.
+Documentaci√≥n detallada en preparaci√≥n. 
+<BusinessRule id="RN-001">
+  Si el monto es mayor a $5,000, el sistema debe solicitar una 
+  doble autenticaci√≥n (MFA) obligatoriamente.
+</BusinessRule>
 
-## Ì≥ã Informaci√≥n B√°sica
+## Informaci√≥n B√°sica
 
-- **Estado:** Ì∫ß En desarrollo
-- **Responsable:** Equipo de Producto
-- **Estimaci√≥n:** Pr√≥ximas semanas
+- **Estado:** En desarrollo <StatusBadge text="Listo" type="success" /> 
+- **Responsable:** Equipo de Producto <StatusBadge text="Modificando" type="danger" />
+- **Estimaci√≥n:** Junio 2026 <StatusBadge text="En Revisi√≥n" type="warning" />
 
-## Ì¥ó Recursos Temporales
+## Recursos Temporales
 
 - [Documentaci√≥n general de m√≥dulos](/modules/)
 - [Gu√≠a de Product Owner](/product-owner-guide/)
 
+# Documentaci√≥n del Header
+
+Aqu√≠ puedes ver el dise√±o actual en Figma:
+
+<FigmaEmbed 
+  url="https://www.figma.com/design/X32biyjjLLibBdWgj4mnvy/AuroraBack---GDP--Gesti%C3%B3n-de-proveedores-y-Producto-?node-id=17249-42953&t=uNoXOHH2prwRwDdW-0" 
+  height="600" 
+/>
+
 <div class="module-wip">
-  <h4>ÌøóÔ∏è Contenido Planeado</h4>
+  <h4>Contenido Planeado</h4>
   <p>Este m√≥dulo incluir√° documentaci√≥n completa sobre:</p>
   <ul>
     <li>Descripci√≥n del m√≥dulo y alcance</li>

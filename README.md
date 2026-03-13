@@ -1,10 +1,10 @@
 # 🚀 Documentación Viva - Proyecto Aurora
 
-Documentación colaborativa para Product Owners, desarrolladores y diseñadores del Proyecto Aurora.
+Documentación colaborativa para Product Owners, diseñadores y desarrolladores del Proyecto Aurora.
 
 ## 🎯 Objetivo
 
-Crear un **único punto de verdad** para todo el equipo, eliminando documentación dispersa y asegurando consistencia en el desarrollo.
+Crear un **punto de consulta** para todo el equipo, eliminando documentación dispersa y asegurando consistencia en el desarrollo.
 
 ## 📖 Contenido Actual
 
@@ -20,12 +20,12 @@ Crear un **único punto de verdad** para todo el equipo, eliminando documentaci�
 - 🎨 **Para Diseñadores:** Guías de diseño
 - 📚 **Recursos:** Plantillas y herramientas
 
-## 🛠️ Desarrollo Local
+### 🛠️ Desarrollo Local
 
 ```bash
 # Clonar repositorio
-git clone https://github.com/tu-usuario/aurora-documentation.git
-cd aurora-documentation
+git clone https://github.com/elianamendez1/documentation.git
+cd documentation
 
 # Instalar dependencias
 npm install
@@ -39,7 +39,7 @@ npm run docs:build
 # Previsualizar build local
 npm run docs:preview
 ```
-## 📁 Estructura del Proyecto
+### 📁 Estructura del Proyecto
 ```text
 
 docs/
@@ -59,17 +59,17 @@ docs/
 └── public/              # Assets públicos
 ```
 
-## 🔗 Enlaces Importantes
+### 🔗 Enlaces Importantes
 
-    🌐 Documentación Online: https://tu-usuario.github.io/aurora-documentation/ (próximamente)
+    🌐 Documentación Online: https://elianamendez1.github.io/documentation/ (próximamente)
 
-    💾 Repositorio: https://github.com/tu-usuario/aurora-documentation
+    💾 Repositorio: https://github.com/elianamendez1/documentation
 
     📋 Issues/Mejoras: Reportar problemas
 
     🔄 GitHub Actions: Estado del despliegue
 
-## 🤝 Cómo Contribuir
+### 🤝 Cómo Contribuir
 Para Product Owners
 
     Documentar nuevos requerimientos en /product-owner-guide/
@@ -78,15 +78,13 @@ Para Product Owners
 
     Actualizar criterios de aceptación
 
-# Para Desarrolladores
+### Para Desarrolladores
 
     Mantener especificaciones técnicas actualizadas
 
-    Documentar APIs y componentes
+    Sistemas de diseño actualizados
 
-    Actualizar sistema de diseño
-
-# Para Diseñadores
+### Para Diseñadores
 
     Vincular diseños de Figma
 
@@ -94,7 +92,7 @@ Para Product Owners
 
     Actualizar guías de estilo
 
-# Proceso General
+### Proceso General
 
     Fork el repositorio
 
@@ -106,7 +104,7 @@ Para Product Owners
 
     Pull Request con descripción detallada
 
-## 📋 Convenciones
+### 📋 Convenciones
 Estructura de Archivos
 
     Usar kebab-case para nombres de archivos
@@ -115,7 +113,7 @@ Estructura de Archivos
 
     Incluir index.md en cada carpeta principal
 
-# Escritura
+### Escritura
 
     Usar lenguaje claro y directo
 
@@ -123,7 +121,7 @@ Estructura de Archivos
 
     Mantener consistencia en tono
 
-# Commits
+### Commits
 
     Prefijos: feat:, fix:, docs:, style:, refactor:
 
@@ -131,7 +129,7 @@ Estructura de Archivos
 
     Describir el "qué" y "por qué"
 
-## 🚀 Próximos Pasos
+### 🚀 Próximos Pasos
 
     Configurar GitHub Pages para despliegue automático
 
@@ -143,10 +141,10 @@ Estructura de Archivos
 
     Agregar sistema de versionado
 
-## 📞 Soporte
+### 📞 Soporte
 
     Issues: Usar GitHub Issues para reportar problemas
 
     Discusiones: GitHub Discussions para preguntas
 
-    Email: lma@limatours.com
+    Email: lma@limatours.com / chat Microsoft Teams: eliana.mendez@tui.com
