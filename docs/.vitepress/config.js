@@ -53,7 +53,7 @@ export default defineConfig({
               text: '🤝 Negociaciones 🚧', link: '/modules/negotiations/',
               collapsed: true,
               items: [
-                { text: 'Políticas de proveedores', link: '/modulos/negociaciones/politicas' },
+                { text: 'Políticas de proveedores', link: '/modules/negotiations/provider-policies/' },
                 { text: 'Comisiones', link: '/modulos/pagos/comisiones' }
               ]
             },
