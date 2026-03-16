@@ -5,36 +5,22 @@ description: Documentación funcional del sistema de políticas de proveedores
  
 # 📜 Políticas de proveedores
  
+<div style="text-align: justify; line-height:1.7; margin-top:12px;">
+
 Sistema para definir las reglas comerciales que regulan la relación entre la empresa y los proveedores turísticos.
- 
----
- 
-<div class="module-wip">
- 
-<h4>🗂️ Contenido Planeado</h4>
- 
-<p>Este módulo incluirá documentación completa sobre:</p>
- 
-<ul>
-<li>Descripción del módulo y alcance</li>
-<li>Flujos de usuario principales</li>
-<li>Especificaciones funcionales</li>
-<li>Integraciones con otros módulos</li>
-<li>Configuraciones y permisos</li>
-</ul>
- 
 </div>
- 
----
- 
+
 ## 🎯 Descripción del módulo y alcance
  
 ### 1. Descripción del módulo
- 
+
+<div style="text-align: justify; line-height:1.7; margin-top:12px;">
+
 El módulo **Políticas de proveedores** permite definir y registrar las reglas comerciales que los proveedores aplican a los servicios turísticos ofrecidos por la empresa.
  
 Estas políticas permiten estandarizar las condiciones bajo las cuales se comercializan los servicios y asegurar que los equipos de operaciones, ventas y contabilidad trabajen bajo los mismos criterios.
- 
+</div>
+
 Las políticas gestionan principalmente:
  
 - Condiciones de pago
@@ -45,26 +31,28 @@ Las políticas gestionan principalmente:
  
 Cada política puede aplicarse a distintos contextos comerciales dependiendo del mercado, cliente, temporada o tipo de servicio.
  
----
- 
 ### 2. Alcance
- 
+
+<div style="text-align: justify; line-height:1.7; margin-top:12px;">
+
 El módulo permite gestionar políticas aplicables a distintos tipos de operación turística dentro del sistema Aurora.
- 
+</div>
+
 El alcance incluye:
  
-- Creación y configuración de políticas comerciales
-- Definición de reglas de pago para proveedores
-- Configuración de penalidades de cancelación
-- Reglas de reconfirmación de servicios
-- Gestión de liberados por número de pasajeros
-- Definición de rangos de edad para infantes y niños
-- Segmentación de políticas por mercados, clientes, series o temporadas
+- Creación y configuración de políticas comerciales.
+- Definición de reglas de pago para proveedores.
+- Configuración de penalidades de cancelación.
+- Reglas de reconfirmación de servicios.
+- Gestión de liberados por número de pasajeros.
+- Definición de rangos de edad para infantes y niños.
+- Segmentación de políticas por mercados, clientes, series o temporadas.
  
+<div style="text-align: justify; line-height:1.7; margin-top:12px;">
+
 Las políticas creadas en este módulo pueden ser utilizadas posteriormente por Cotizaciones, Files, Series y Operaciones para aplicar automáticamente las condiciones comerciales correspondientes.
- 
----
- 
+</div>
+
 ## 🔄 Flujos de usuario principales
  
 El siguiente diagrama muestra el flujo de creación y configuración de una política de proveedor.
@@ -93,37 +81,7 @@ Estos datos definen **cuándo, a quién y en qué contexto comercial se aplicar�
 - Periodo de vigencia
 - Segmentación de política
  
-##### Tipo de operación
- 
-Define el tipo de operación turística al que se aplicará la política.
- 
-| Tipo de operación | Descripción |
-|---|---|
-| FIT | Viajes individuales |
-| GRUPOS | Operaciones grupales |
-| SERIES | Programas recurrentes |
- 
-##### Rango de cantidad (Desde / Hasta):
- 
-Define el rango de cantidad para los cuales la política será aplicada. Este rango permite que distintas políticas se apliquen según el tamaño de la reserva.
- 
-Ejemplo:
-Desde: 1  
-Hasta: 15  
- 
-La política aplicará únicamente a reservas que se encuentren dentro de ese rango.
- 
-##### Periodo de vigencia:
- 
-Define el rango de fechas durante el cual la política estará activa.
- 
-Campos:
-- Fecha desde
-- Fecha hasta
- 
-Solo las reservas cuya fecha de servicio se encuentre dentro de este periodo utilizarán esta política.
- 
-##### Nombre de política
+###### 📌Nombre de política:
  
 El usuario puede ingresar un nombre manual o utilizar una convención sugerida:
  
@@ -136,10 +94,39 @@ Ejemplo:
 ```
 Política FIT: USA
 ```
+
+###### 📌Tipo de operación
  
----
+Define el tipo de operación turística al que se aplicará la política.
  
-##### Segmentación de políticas
+| Tipo de operación | Descripción |
+|---|---|
+| FIT | Viajes individuales |
+| GRUPOS | Operaciones grupales |
+| SERIES | Programas recurrentes |
+ 
+###### 📌Rango de cantidad (Desde / Hasta):
+ 
+Define el rango de cantidad para los cuales la política será aplicada. Este rango permite que distintas políticas se apliquen según el tamaño de la reserva.
+ 
+Ejemplo:
+
+Desde: 1  
+Hasta: 15  
+ 
+La política aplicará únicamente a reservas que se encuentren dentro de ese rango.
+ 
+###### 📌Periodo de vigencia:
+ 
+Define el rango de fechas durante el cual la política estará activa.
+ 
+Campos:
+- Fecha desde
+- Fecha hasta
+ 
+Solo las reservas cuya fecha de servicio se encuentre dentro de este periodo utilizarán esta política.
+
+###### 📌Segmentación de políticas:
  
 Permite aplicar la política a distintos segmentos.
  
@@ -158,17 +145,14 @@ Los valores disponibles en cada segmentación se obtienen de los catálogos conf
  
 ### Paso 2 — Configuración de reglas
  
-Una vez registrada la configuración base de la política, el usuario debe definir las **reglas operativas que componen la política**. Estas reglas determinan **cómo se comportará comercialmente el servicio frente a distintas situaciones**.
- 
-Las políticas están compuestas por **cinco secciones principales**.
- 
----
- 
+<div style="text-align: justify; line-height:1.7; margin-top:12px;">
+
+Una vez registrada la configuración base de la política, el usuario debe definir las **reglas operativas que componen la política**. Estas reglas determinan **cómo se comportará comercialmente el servicio frente a distintas situaciones**. Las políticas están compuestas por **cinco secciones de reglas**.
+</div>
+
 ## ⚙️ Especificaciones funcionales
  
 Las políticas están compuestas por **cinco secciones de reglas**.
- 
----
  
 ### 1️⃣ Condiciones de pago
  
@@ -190,9 +174,10 @@ Opciones:
  
 #### Pagos en partes
  
-Permite dividir el pago en varios plazos.
-Las condiciones de pago pueden dividirse en múltiples plazos configurables.
- 
+<div style="text-align: justify; line-height:1.7; margin-top:12px;">
+Permite dividir el pago en varios plazos. Las condiciones de pago pueden dividirse en múltiples plazos configurables.
+</div>
+
 Ejemplo:
  
 Reserva total **2500 USD**
@@ -205,8 +190,11 @@ Condiciones:
  
 ### 2️⃣ Cancelación
  
+<div style="text-align: justify; line-height:1.7; margin-top:12px;">
+
 Define las penalidades aplicables cuando un servicio es cancelado antes de la fecha de operación. Las penalidades se configuran mediante **reglas de cancelación**, las cuales se aplican dependiendo de la cercanía a la fecha del servicio.
- 
+</div>
+
 Cada regla incluye:
  
 - **Días antes del servicio**: momento a partir del cual aplica la penalidad.
@@ -231,7 +219,7 @@ Resultado:
  
 Consideraciones:
  
-- Se pueden configurar múltiples reglas
+- Se pueden configurar múltiples reglas.
 - Las reglas se evalúan en orden descendente de días antes del servicio.
 - Se aplica la primera regla cuyo rango de días sea menor o igual a la diferencia entre la fecha de cancelación y la fecha del servicio.
  
@@ -244,7 +232,7 @@ Permite exigir confirmación previa del servicio.
 Ejemplo:
  
 ```
-Reconfirmación 48 horas antes del servicio
+Reconfirmación 48 horas antes del servicio.
 ```
  
 Opciones adicionales:
@@ -280,8 +268,11 @@ Incluye campo para **información adicional**.
 ---
 ### Finalización del proceso
  
+<div style="text-align: justify; line-height:1.7; margin-top:12px;">
+
 Una vez configuradas todas las reglas, el sistema realiza una **validación final**. Si todos los campos requeridos están completos, el usuario puede: Guardar y activar política. Al completarse este proceso, la política queda **disponible para ser utilizada por otros módulos del sistema**.
- 
+</div>
+
 ## 🔗 Integraciones con otros módulos
  
 Las políticas interactúan con otros módulos del sistema.
@@ -293,8 +284,6 @@ Las políticas interactúan con otros módulos del sistema.
 | Files | Generación de alertas |
 | Series | Segmentación |
 | Reservas | Cálculo de penalidades |
- 
----
  
 ## ⚙️ Configuraciones y permisos
  
@@ -313,14 +302,15 @@ Permisos principales:
 | Administración | Modificar |
 | Finanzas | Visualizar condiciones de pago |
  
----
- 
 ## 🎨 Diseño de interfaz
  
+<div style="text-align: justify; line-height:1.7; margin-top:12px;">
+
 La interfaz del módulo **Políticas de proveedores** permite a los usuarios configurar las condiciones comerciales aplicables a los servicios de un proveedor.
  
 El diseño busca facilitar la configuración de reglas complejas mediante formularios estructurados y validaciones automáticas.
- 
+</div>
+
 **Pantallas UI**
  
 <iframe
@@ -332,10 +322,11 @@ El diseño busca facilitar la configuración de reglas complejas mediante formul
  
 ### Copiar política
  
+<div style="text-align: justify; line-height:1.7; margin-top:12px;">
+
 El sistema permite duplicar una política existente para facilitar la creación de nuevas configuraciones. Al utilizar la opción **Copiar política**, el sistema:
- 
+</div>
+
 - Replica la configuración base
 - Copia todas las reglas configuradas
 - Permite modificar los valores antes de guardar la nueva política
- 
----
