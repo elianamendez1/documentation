@@ -1,5 +1,4 @@
 ﻿import { defineConfig } from "vitepress"
-import { withMermaid } from 'vitepress-plugin-mermaid'
 
 export default defineConfig({
   // ========== CONFIGURACIÓN BÁSICA ==========
@@ -28,7 +27,7 @@ export default defineConfig({
       { text: '🏠 Inicio', link: '/' },
       { text: '📦 Módulos', link: '/modules/' },
       { text: '🎯 Guía PO', link: '/product-owner-guide/' },
-      //{ text: '💻 Devs', link: '/developers/' },
+      { text: '💻 Devs', link: '/developers/' },
       //{ text: '🎨 Diseñadores', link: '/designers/' },
       //{ text: '📚 Recursos', link: '/resources/' },
     ],
@@ -48,13 +47,20 @@ export default defineConfig({
 
         {
           text: 'Módulos',
+          collapsed: false,
           items: [
             {
               text: '🤝 Negociaciones 🚧', link: '/modules/negotiations/',
               collapsed: true,
               items: [
                 { text: 'Políticas de proveedores', link: '/modules/negotiations/provider-policies/' },
-                { text: 'Comisiones', link: '/modulos/pagos/comisiones' }
+                { text: 'Creación de producto genérico', link: '/modules/negotiations/generic-product-creation/' },
+                { text: 'Configuración de producto genérico', link: '/modules/negotiations/generic-product-configuration/',
+                  collapsed: true,
+                  items: [
+                    { text: 'Planes tarifarios', link: '/modules/negotiations/generic-product-configuration/pricing-plans/'}
+              ]
+              }
               ]
             },
             {
@@ -82,6 +88,23 @@ export default defineConfig({
               link: '/modules/masi/',
               badge: { text: '🚧', variant: 'tip' } 
             }*/
+          ]
+        },
+
+        {
+          text: 'Manuales de usuario',
+          collapsed: false,
+          items: [
+            {
+              text: '💰 Control de pedidos 🚧',
+              link: '/modules/user-manuals/order-control/',
+              badge: { text: '🚧', variant: 'tip' }
+            },
+            {
+              text: '📁 Manual-Files 🚧',
+              link: '/modules/user-manuals/manual-files/',
+              badge: { text: '🚧', variant: 'tip' }
+            },
           ]
         },
         /*{
@@ -114,6 +137,7 @@ export default defineConfig({
           ]
         }*/
       ],
+
       '/product-owner-guide/': [
         {
           text: "Guía Product Owner",
@@ -128,15 +152,56 @@ export default defineConfig({
 
           ]
         },
+      ],
 
+      '/developers/': [
+        {
+          text: 'Módulos',
+          collapsed: false,
+          items: [
+            {
+              text: '🤝 Negociaciones 🚧', link: '/developers/negotiations/',
+              collapsed: true,
+              items: [
+                { text: 'Políticas de proveedores', link: '/developers/negotiations/provider-policies/' },
+                { text: 'Creación de producto genérico', link: '/developers/negotiations/generic-product-creation/' },
+                { text: 'Configuración de producto genérico', link: '/developers/negotiations/generic-product-configuration/',
+                  collapsed: true,
+                  items: [
+                    { text: 'Planes tarifarios', link: '/developers/negotiations/generic-product-configuration/pricing-plans/'}
+              ]
+              }
+              ]
+            },
+            {
+              text: '💰 Cotizaciones 🚧',
+              link: '/modules/quotations/',
+              badge: { text: '🚧', variant: 'tip' }
+            },
+            {
+              text: '📁 Files 🚧',
+              link: '/modules/files/',
+              badge: { text: '🚧', variant: 'tip' }
+            },
+            {
+              text: '📊 Series 🚧',
+              link: '/modules/series/',
+              badge: { text: '🚧', variant: 'tip' }
+            },
+            {
+              text: '⚙️ Operaciones 🚧',
+              link: '/modules/operations/',
+              badge: { text: '🚧', variant: 'tip' }
+            },
+            /*{ 
+              text: '📈 MASI 🚧', 
+              link: '/modules/masi/',
+              badge: { text: '🚧', variant: 'tip' } 
+            }*/
+          ]
+        },
       ]
     },
-
-    mermaid: {
-      // Configuración opcional de tema
-      theme: 'neutral', 
-    },
-
 
 
     // ========== FOOTER ==========
