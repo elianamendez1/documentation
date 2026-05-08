@@ -1,504 +1,394 @@
 ---
-title: Configuración de producto genérico
-description: Documentación funcional del sistema de configuración de servicios dentro del producto genérico
+title: Planes tarifarios (Dev)
+description: Documentación técnica del módulo de planes tarifarios para desarrolladores
 ---
 
-# ⚙️ Configuración de producto genérico
-<div style="text-align: justify; line-height:1.7; margin-top:12px;">
-
-El módulo **Configuración de producto genérico** permite definir el comportamiento operativo, logístico y comercial de un servicio turístico previamente creado.
-
-Este módulo actúa como una etapa intermedia entre la **definición base del producto** y la **publicación de sus contenidos, imágenes y tarifas**, permitiendo que la configuración avance de forma progresiva incluso cuando aún no se dispone de toda la información final.
-
-La configuración varía dependiendo del tipo de servicio:
-- **Servicio simple:** configuración directa.
-- **Servicio compuesto:** requiere estructura previa y lógica de cálculo.
-</div>
-
-## 🎯 Descripción del módulo y alcance
-### 1. Descripción del módulo
+# 💻 Planes tarifarios – Dev
 
 <div style="text-align: justify; line-height:1.7; margin-top:12px;">
 
-El módulo permite configurar los **detalles operativos del servicio**, incluyendo horarios, duración, puntos logísticos, estado y reglas de operación.
+Este documento describe la implementación técnica del módulo **Planes tarifarios**, incluyendo arquitectura, componentes, modelo de datos, APIs, reglas de negocio y validaciones críticas.
 
-Este módulo actúa como un **puente entre la definición conceptual del producto y su ejecución real**, asegurando que todos los equipos (negociación, operaciones, ventas) trabajen con información consistente.
+El módulo de Planes tarifarios es responsable de transformar la configuración operativa del servicio en **estructuras económicas vendibles**, siendo consumido directamente por cotizaciones, files, operación y contabilidad.
+
+Se basa en cuatro principios técnicos clave:
+
+- **Motor temporal centralizado:** todas las fechas viven en este módulo  
+- **Guardado progresivo (autosave):** persistencia por bloques de fechas  
+- **Flujo no bloqueante:** el usuario puede avanzar sin completar todo  
+- **Validaciones de negocio estrictas en backend:** no solapamientos ni vacíos  
+
 </div>
-
-#### El módulo gestiona:
-
-- Configuración de datos base del servicio
-- Definición de rangos operativos (horarios)
-- Configuración de puntos logísticos (inicio y fin)
-- Control de estado del servicio
-- Configuración dependiente del tipo de servicio (simple / compuesto)
-- Persistencia progresiva de datos
 
 ---
 
-### 2. Alcance
+# 🧱 Contenido Planeado
+---
+
+## 🎨 Sistema de Diseño
+
+### 🧩 Componentes UI reutilizables
 
 <div style="text-align: justify; line-height:1.7; margin-top:12px;">
 
-El módulo cubre todo el proceso necesario para que un servicio pueda ser:
-- Cotizado
-- Vendido
-- Ejecutado en operación
+La interfaz sigue un patrón **Stepper (Wizard) de 4 pasos**, visible en Figma y alineado al flujo funcional:
 
-#### Incluye:
+- Datos básicos  
+- Staff e impuestos  
+- Montos  
+- Cupos  
 
-- Configuración de servicios simples y compuestos
-- Gestión de horarios operativos por día
-- Configuración de duración manual o automática
-- Integración con catálogos de mantenimiento
-- Validaciones de negocio en tiempo real
-- Flujo flexible entre configuración, Contenido / Imágenes y tarifas
-
-El módulo no bloquea el avance hacia tarifas o Contenido / Imágenes, permitiendo que el usuario avance mientras completa la información.
+Cada paso es independiente, no bloqueante y soporta autosave por secciones.
 </div>
 
-<div style="border-left:4px solid #f59e0b; padding:12px 16px; background:#fef9c3; color:#000000; border-radius:8px; margin:16px 0;">
+#### Componentes principales
 
-⚠️ <strong>Paso previo obligatorio: Configuración de ciudad:</strong>
-<ul>
-Antes de ingresar al módulo de Configuración del servicio, se debe completar un paso previo en el flujo:
-</ul>
+- **StepperContainer**
+  - Maneja navegación libre entre pasos
+  - Estados visuales: incomplete / complete / error
+  - No bloquea avance
 
-<ul>
+- **RatePlanBasicForm**
+  - Tipo de tarifa
+  - Periodo de viaje / reserva
+  - Moneda compra / venta
+  - Toggles de días diferenciados y festivos
 
-##### 📌Datos definidos previamente:
-- Lugares de operación (zonas turísticas del proveedor)
-- Categoría del proveedor
+- **DateRangeManager** ⚠️ (CRÍTICO)
+  - Manejo de rangos de fechas
+  - Bloqueo de fechas ya utilizadas
+  - Detección de solapamientos y vacíos
+  - Validación en tiempo real
 
-##### 📌Categorías disponibles:
-Este valor es definido en el módulo de mantenimiento y representa la clasificación del proveedor.
-- PC – Privado  
-- SIM – Compartido  
-- SIC – Semi privado  
-- N – Ninguno  
+- **PeriodSeasonBuilder**
+  - Construcción de temporadas
+  - Cortes múltiples por temporada
+  - Validación de continuidad
 
-##### 📌Uso en sistema:
-- Este valor NO se muestra directamente al usuario final
-- Se utiliza como base para definir la modalidad del servicio en la siguiente pantalla
+- **WeekdaySelector**
+  - Selección manual de días
+  - Lógica automática de fin de semana
 
-##### 📌Consideraciones:
-- Estos datos provienen del módulo de mantenimiento
-- Son utilizados para habilitar configuraciones dentro del servicio
-- El perfil del servicio (en caso de ser simple) se define en este paso previo
-</ul>
-</div>
+- **HolidayRateMatrix**
+  - Integración con calendario festivo
+  - Generación automática de excepciones
 
-## 🔄 Flujos de usuario principales
+- **TaxAndStaffPanel**
+  - Configuración de IGV / IVA
+  - Service fee
+  - Staff dinámico
 
-<iframe 
- width="100%"
- height="600"
- style="border:1px solid #ddd"
- src="https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/board/yBt9rOQ7Gb1Mw6CFU8zDTt/AuroraBack---GDP--Gesti%C3%B3n-de-proveedores-y-Producto-?node-id=2528-2076&t=6qLD809ytvm21jk2-0">
-</iframe>
+- **RateAmountMatrix** ⚠️ (CRÍTICO)
+  - Ingreso de montos por bloque de fechas
+  - Autosave por bloque
+  - Estados comerciales de tarifa
 
-El flujo presenta una **decisión clave basada en el tipo de servicio**.
+- **QuotaManager**
+  - Cupos por fecha
+  - Validación contra reservas existentes
 
-### Flujo general
+---
 
-1. Seleccionar proveedor  
-2. Seleccionar ciudad  
-3. Definir tipo de servicio  
-4. Decisión del sistema:
-- **Servicio simple:**
-  → Detalles del servicio  
-  → Configuración  
-  → Contenido / Imágenes (módulo paralelo, no secuencial)  
-  → Planes tarifarios  
-  → Fin  
-- **Servicio compuesto:**
-  → Estructura + calculadora  
-  → Detalles del servicio  
-  → Configuración  
-  → Contenido / Imágenes (módulo paralelo, no secuencial)  
-  → Planes tarifarios  
-  → Fin  
+## ⚙️ Especificaciones Técnicas
 
-⚠️ Importante:
+### 🏗️ Arquitectura del sistema
+#### Capas
+- **Frontend**
+  - Vue + Vite
+  - State management (Pinia)
+  - Formularios reactivos
 
-El módulo de **Contenido / Imágenes** no forma parte de un flujo secuencial obligatorio.
-- Puede completarse en cualquier momento
-- Está desacoplado de Configuración
-- No bloquea el avance hacia tarifas
-- El módulo de **Contenido / Imágenes** agrupa: contenido funcional (operatividad, inclusiones, requisitos) y gestión de imágenes del servicio.
+- **Backend**
+  - API REST
+  - Motor de validación temporal
+  - Autosave por entidades parciales
 
-Ambos componentes comparten el mismo nivel dentro del flujo y no bloquean la configuración ni las tarifas.
-Esto se representa en el flujo mediante líneas punteadas.
+- **Base de datos**
+  - Modelo relacional
+  - Integridad referencial estricta
 
-### 🔀 Decisión: Tipo de servicio
+### 🔌 APIs y endpoints
 
-#### Servicio simple
+#### 📌 Obtener planes tarifarios
+```text
+GET /api/services/{serviceId}/rate-plans?status=confirmed&type=flat
+```
+#### 📌 Crear / actualizar tarifa
 
-Flujo:
-Detalles del servicio → Configuración → Planes tarifarios → Fin  
-
-Módulos paralelos:
-- Contenido / Imágenes puede completarse en cualquier momento
-
+```http
+POST /api/rate-plans
+PATCH /api/rate-plans/{ratePlanId} 
+```
 Características:
-- Tiene perfil
-- Configuración directa
-- Menor complejidad operativa
+- Partial update
+- Validación completa en backend
+- Idempotente
 
-#### Servicio compuesto
+#### 📌 Obtener calendario festivo
 
-Flujo:
-Estructura + calculadora → Detalles del servicio → Configuración → Planes tarifarios → Fin  
+```http
+GET /api/calendar/holidays
+```
 
-Módulos paralelos:
-- Contenido / Imágenes puede completarse en cualquier momento
+#### 📌 Tipo de cambio
 
-Características:
-- No maneja perfil operativo directo
-- La lógica del servicio se define a través de su estructura y calculadora
-- Requiere estructura previa
-- Puede involucrar múltiples componentes
+```http
+GET /api/exchange-rate
+```
+## 🧠 Lógica de negocio clave
 
-## ⚙️ Especificaciones funcionales
+### 📌 Tipo de tarifa
 
-### 1. Pantalla: Detalles del servicio
+| Tipo | Código | Comportamiento |
+|----|------|----------------|
+| Plana | flat | Cobertura continua sin vacíos |
+| Periodos | periods | Temporadas con cortes |
+| Promocional | promo | Sin festivos |
+| Específica | specific | Segmentación avanzada |
 
-<iframe
- width="100%"
- height="600"
- style="border:1px solid #ddd"
- src="https://www.figma.com/embed?embed_host=share&url=https://www.figma.com/design/X32biyjjLLibBdWgj4mnvy/AuroraBack---Negociaciones-2?node-id=9781-130017">
-</iframe>
+### 📌 Regla de unicidad (CRÍTICA)
 
-### 🧩 Campos y comportamiento
-
-#### 📌Nombre del servicio
-
-- Visible pero bloqueado
-- Proviene del proceso de marketing
-- No editable una vez aprobado
-
-Comportamiento:
-- Solo editable en etapas previas
-- Se muestra como referencia informativa
-
-#### 📌Modalidad del servicio (Compartido / Privado / Semi privado)
-
-Define cómo se opera el servicio desde el punto de vista del cliente final.
-Valores visibles:
-- Compartido (SIM)
-- Privado (PC)
-- Semi privado (SIC)
-
-Origen del dato:
-- Este campo NO es editable
-- Se genera automáticamente a partir de la **categoría del proveedor** definida en el paso previo (configuración de ciudad)
-
-Transformación de datos:
-
-| Categoría (backend) | Modalidad (UI) |
-|--------------------|---------------|
-| PC | Privado |
-| SIM | Compartido |
-| SIC | Semi privado |
-| N | No aplica |
-
-Comportamiento:
-- Campo solo informativo
-- No editable por el usuario
-- Siempre consistente con la categoría seleccionada previamente
-
-Regla de sistema:
-- Categoría = dato técnico (mantenimiento)
-- Modalidad = dato funcional (UI / negocio)
-
-Impacto en sistema:
-- Define comportamiento en tarifas.
-- Define lógica operativa del servicio.
-- Controla visibilidad de campos (ej: Perfil).
-- Influye en reglas de negocio posteriores.
-
-#### 📌Subtipo
-
-- Campo dependiente del tipo de proveedor
-- Actualmente NO disponible en producción
-
-Estado:
-- Pendiente de definición por MAPI
-
-Comportamiento esperado:
-- Será dinámico
-- Alimentado desde mantenimiento
-- Variará según tipo de proveedor
-
-⚠️ Restricción actual:
-- No bloquea el flujo
-- Puede no mostrarse en algunas implementaciones
-
-#### 📌Perfil
-
-- Solo aplica para servicios simples
-- No disponible para servicios compuestos
-
-Origen:
-- Configurado en paso previo (modal de ciudad)
-
-Regla de negocio:
-
-| Tipo de servicio | Perfil |
-|-----------------|--------|
-| Simple | ✅ Visible |
-| Compuesto | ❌ No aplica |
-
-Comportamiento:
-- El campo se oculta automáticamente para servicios compuestos
-- Su valor proviene del paso previo (configuración de ciudad)
-
-#### 📌Puntos de inicio y fin
-
-Fuente:
-- Catálogo de mantenimiento
-
-Uso en sistema:
-
-| Módulo | Uso |
-|------|------|
-| Negociación | Definición del punto |
-| File | Asignación de direcciones |
-| Operaciones | Determinación de sede |
-
-Ejemplo:
-- Inicio: Aeropuerto Lima
-- Fin: Hotel Miraflores
-→ Operación asignada a Lima
-
-#### 📌Duración
+```text
+product_supplier_id
++ service_detail_id
++ rango de fechas
+```
 
 Reglas:
+- No duplicados
+- No solapamientos
+- Validación obligatoria antes de persistir
 
-| Caso | Comportamiento |
-|------|--------------|
-| Operador Lima Tours | La duración es automática |
-| Otros proveedores | La duración es manual |
+### 📌 Validación de fechas
 
-Consideraciones:
-- Campo editable según proveedor
-- La lógica automática está definida a nivel de negocio
-- Puede evolucionar a cálculos dinámicos en el futuro
+```text
+function validateRanges(ranges) {
+  checkOverlap(ranges);
+  checkContinuity(ranges);
+}
+```
 
-Comportamiento adicional:
-- Si el proveedor cambia:
-  - La lógica de duración se recalcula (manual / automática)
-- En servicios compuestos:
-  - La duración puede calcularse a partir de la estructura definida
-  - La duración manual puede quedar deshabilitada dependiendo de la lógica configurada
+Resultados:
+- Solapamiento → error de negocio
+- Vacío → tarifa NO vendible
 
-#### 📌Rangos operativos (horarios)
+### 📌 Lógica de fin de semana
 
-Define:
-- Horas en las que inicia el servicio
+```text
+const isWeekendRate = (days) =>
+  days.includes("SAT") || days.includes("SUN");
+```
+Cualquier combinación con sábado o domingo se considera tarifa fin de semana.
 
-Comportamiento clave:
-- Generalmente se configuran 2 horarios:
-  - Mañana
-  - Tarde
-- Input inteligente:
-  - Escribir "9" → autocompleta "09:00"
-- Replica automática:
-  - Ocurre solo la primera vez que se ingresa un horario
-  - Se toma como base el primer día configurado (generalmente lunes)
-  - Replica hacia los demás días habilitados
-  - Si el usuario modifica manualmente un día, se rompe la replicación automática
+### 📌 Tarifas festivas
 
-Configuración:
+Prioridad de cálculo:
+```text
+festivo > fin_de_semana > estándar
+```
 
-<div style="text-align: justify; line-height:1.7; margin-top:12px;">
+- Solo aplica a tarifas planas y por periodos
+- Integración directa con calendario
 
-La configuración de rangos operativos se realiza por día de la semana, permitiendo definir horarios de inicio y fin para cada uno. El sistema permite una configuración individual o replicada según el comportamiento del usuario. El día Domingo puede configurarse como no disponible.
-</div>
+### 📌 Restricción de edición de fechas
 
-Opciones de configuración:
-- Aplicar 24 horas
-- Configuración por días:
-  - Todos los días
-  - Personalizado
+```text
+if (amountsExist && !hasAdminRole) {
+  blockDateEdition();
+}
+```
 
-Comportamientos adicionales:
-- Permite activar/desactivar días específicos
-- Permite múltiples rangos por día (futuro)
-- Domingo puede marcarse como “No disponible”
+Usuarios con permisos especiales:
+- Recalcular bloques
+- Marcar tarifas como "requiere revisión"
 
-#### 📌Estado del servicio
+### 📌 Moneda y tipo de cambio
 
-Valor por defecto:
-- Activo
+- No se persiste tipo de cambio
+- Se consulta en tiempo real desde contabilidad
 
-Otros estados:
-- Inactivo
-- Suspendido
+```text
+finalAmount = baseAmount * exchangeRate;
+```
 
-Reglas:
+### 📌 Concepto: Bloques de tarifa (rate blocks) ⚠️
 
-- Si cambia de activo:
-  - Se habilita campo de motivo
-  - Máximo 150 caracteres
+Los bloques de tarifa son unidades generadas automáticamente a partir de la configuración definida en el Paso 1. Se construyen combinando:
+- Rangos de fechas
+- Días diferenciados
+- Festivos
 
-### Comportamientos clave del sistema
+Cada bloque representa una unidad independiente que requiere ingreso de tarifa en el Paso 3.
 
-#### 📌Guardado progresivo
+📌 Ejemplo:
+- 01 Ene – 31 Mar (Lunes a Viernes) → Bloque 1  
+- 01 Ene – 31 Mar (Fin de semana) → Bloque 2  
+- 14 Feb (Festivo) → Bloque 3  
 
-- El sistema guarda automáticamente la información.
-- No es necesario completar todos los campos.
-- Permite avanzar entre módulos sin bloqueo.
-- El servicio solo se considera completo al finalizar todo el flujo.
+📌 Reglas:
+- El usuario NO crea bloques manualmente
+- El sistema los genera automáticamente
+- Cada bloque debe tener al menos una tarifa configurada
+- Si un bloque no tiene tarifa → el servicio NO es vendible
 
-#### 📌Regla de no bloqueo
+📌 Impacto técnico:
+- Define la estructura de `RateAmountMatrix`
+- Determina las filas dinámicas en UI
 
-El sistema permite avanzar en el flujo sin completar todos los módulos:
-- Se puede ir a Tarifas sin completar Contenido / Imágenes
-- Se puede ir a Contenido / Imágenes sin completar Configuración
-- Se puede navegar libremente entre módulos
+### 📌 Cálculo de vendibilidad (isSellable)
 
-Condición:
-- El servicio no se considera completo hasta finalizar todo el flujo
+El sistema no persiste el estado de vendibilidad, se calcula en tiempo real.
 
-Motivo:
-- Permitir carga progresiva de información
-- Adaptarse a escenarios reales de negocio
+#### Condiciones:
+- Sin solapamientos
+- Sin vacíos en fechas
+- Todas las fechas tienen montos
+- Cupos definidos
+- Contenido aprobado (externo al módulo)
 
-#### 📌Validaciones
+```ts
+function isSellable(ratePlan) {
+  return (
+    noDateGaps &&
+    noOverlaps &&
+    hasAllAmounts &&
+    hasQuota
+  );
+}
+```
+📌 Resultado:
+- true → servicio visible en cotización
+- false → servicio oculto
 
-- Campos obligatorios controlados
-- Validaciones no bloqueantes
+## 🗄️ Base de datos y modelos
 
-## 🔗 Integraciones con otros módulos
+### 📌 Tabla: `rate_plans` 
+| Campo | Tipo |
+|-------|------|
+| id | uuid |
+| product_supplier_id | uuid |
+| service_detail_id | uuid |
+| type | enum |
+| currency_purchase | varchar |
+| currency_sale | varchar |
+| reservation_code | varchar |
+| is_reservation_required | boolean |
+| status | enum |
 
-<div style="text-align: justify; line-height:1.7; margin-top:12px;">
+### 📌 Tabla: `rate_plan_dates`
+| Campo | Tipo |
+|-------|------|
+| id | uuid |
+| rate_plan_id | uuid |
+| start_date | date |
+| end_date | date |
+| rate_type | enum (standard / weekend / holiday) |
 
-El módulo de **Configuración de producto genérico** se integra de manera directa con múltiples componentes del sistema, ya que la información definida aquí no solo se utiliza en esta etapa, sino que se propaga a lo largo de todo el ciclo de vida del servicio. 
+### 📌 Tabla: `rate_plan_amounts`
+| Campo | Tipo |
+|-------|------|
+| id | uuid |
+| rate_plan_date_id | uuid |
+| base_amount | decimal |
+| final_amount | decimal |
+| currency | varchar |
+| staff_id | uuid |
+| status | enum |
 
-Cada dato configurado como puntos de inicio, horarios, estado o nombre es consumido por otros módulos que dependen de esta información para ejecutar procesos críticos como la cotización, operación del servicio o asignación logística. Por esta razón, cualquier cambio realizado en este módulo tiene un impacto transversal, lo que hace necesario que la configuración sea precisa, consistente y alineada con las reglas de negocio definidas.
-</div>
+### 📌 Tabla: `rate_plan_taxes`
+| Campo | Tipo |
+|-------|------|
+| id | uuid |
+| rate_plan_id | uuid |
+| fee_id | uuid |
+| percentage | decimal |
 
-| Módulo | Uso |
+### 📌 Tabla: `rate_plan_quotas`
+| Campo | Tipo |
+|-------|------|
+| id | uuid |
+| rate_plan_date_id | uuid |
+| available_quota | int |
+
+### 📌 Tabla: `rate_plan_staff`
+
+| Campo | Tipo |
 |------|------|
-| Mantenimiento | Catálogos (puntos, categorías, contenidos) |
-| Proveedores | Origen de datos operativos |
-| Tarifarios | Definición de precios |
-| Files | Uso de direcciones y horarios |
-| Operaciones | Asignación logística |
-| Marketing | Definición de nombre |
+| id | uuid |
+| rate_plan_id | uuid |
+| staff_type | enum |
 
-## ⚙️ Configuraciones y permisos
+📌 Uso:
+- Define qué staff impactan en la tarifa
+- Permite cálculo dinámico en Paso 3
 
-### 📌Configuraciones
+### 📌 Tabla: `client_rate_plans`
 
-Dependen de:
-- Catálogo de puntos (inicio / fin)
-- Categorías de proveedor:  
-  Este es el mismo dato que define la modalidad del servicio en la pantalla. 
-  Valores:
-  - PC (Privado)
-  - SIM (Compartido)
-  - SIC (Semi privado)
-  - N (Ninguno)
+| Campo | Tipo |
+|------|------|
+| id | uuid |
+| client_id | uuid |
+| rate_plan_id | uuid |
 
-  Uso en sistema:
-  - Define modalidad del servicio
-  - Controla configuraciones disponibles
-  - Impacta en tarifas y operación
+📌 Relación:
+- rate_plans → rate_plan_dates (1:N)
+- rate_plan_dates → rate_plan_amounts (1:N)
+- rate_plan_dates → rate_plan_quotas (1:N)
+- rate_plans → rate_plan_taxes (1:N)
+- rate_plans → rate_plan_staff (1:N)
+- rate_plans → client_rate_plans (1:N)
 
-- Catálogo de contenidos:
-  - Operatividad
-  - Inclusiones
-  - Requisitos
+📌 Regla:
+- No puede existir un rate_plan sin relación en esta tabla
 
-### 📌Permisos
+## ⚠️ Reglas críticas del sistema
 
-| Rol | Permiso |
-|------|--------|
-| Product Owner | Configurar catálogos |
-| Negociaciones | Configurar servicios |
-| Operaciones | Consultar |
-| Marketing | Define nombre |
-| Administración | Modificar |
+### 📌 Reglas de fechas
+- Toda configuración de fechas debe realizarse en este módulo
+- No permitir solapamientos
+- No permitir vacíos en fechas
 
-## 🎨 Diseño de interfaz
+### 📌 Reglas de integridad
+- No permitir duplicidad por clave de negocio
+- No permitir tarifas sin cliente
+- No permitir tarifas sin montos completos
 
-<div style="text-align: justify; line-height:1.7; margin-top:12px;">
+### 📌 Reglas de cálculo
+- No persistir tipo de cambio
+- El cálculo siempre debe usar valores en tiempo real
 
-La interfaz está diseñada como un formulario estructurado con navegación lateral, permitiendo una configuración progresiva y clara.
+### 📌 Reglas de validación
+- Validaciones críticas siempre deben ejecutarse en backend
 
-Se prioriza la visibilidad de información clave y la facilidad de ingreso de datos operativos complejos.
-</div>
+## 🧑‍💻 Guías de Desarrollo
 
-### Estructura visual
+### 📏 Estándares
 
-#### 📌Sidebar izquierdo
+- TypeScript obligatorio
+- Validaciones críticas en backend
+- No lógica de fechas solo en frontend
 
-Secciones base:
-- Detalles del servicio
-- Configuración
-- Contenido / Imágenes
-- Planes tarifarios
+ ### 🔄 Checklist de code review
 
-Secciones dinámicas:
-- Estructura (solo servicios compuestos)
-- Imágenes (extensión futura o configuración adicional)
+✔ Validación de fechas
+✔ No solapamientos
+✔ Manejo correcto de estados
+✔ Autosave por bloque
+✔ Integración con contabilidad
+✔ Pruebas de cálculo
 
-Comportamiento:
-- Las secciones visibles dependen del tipo de servicio
+### 🧪 Pruebas y QA
+- Unitarias
+  - Continuidad de fechas
+  - Cálculo de tarifas
+  - Lógica de fin de semana
 
-#### 📌Panel principal
+- Integración
+  - Creación completa de tarifa
+  - Autosave parcial
+  - Staff + impuestos
 
-Contiene:
-- Formularios dinámicos
-- Inputs estructurados
-- Selects conectados a catálogos
-- Validaciones en tiempo real
-
-### Consideraciones UX
-
-- Inputs inteligentes (autocompletado de horas)
-- Feedback visual inmediato
-- Formularios no bloqueantes
-- Flujo flexible
-- Separación clara de secciones
-- Navegación lateral persistente
-
-### Relación con módulo de Contenido
-
-- Los horarios configurados en "rangos operativos" son utilizados en operatividad
-- Las opciones de contenido provienen de mantenimiento:
-  - Operatividad
-  - Inclusiones
-  - Requisitos
-
-Restricción:
-- El contenido NO bloquea la creación de tarifas
-- El sistema permite avanzar sin completar Contenido / Imágenes
-
-### Estados de interfaz
-
-- Loading (carga de catálogos)
-- Empty (sin configuración)
-- Error (fallo en guardado)
-- Success (guardado correcto)
-
-### Navegación entre módulos
-
-El usuario puede moverse libremente entre:
-- Configuración
-- Contenido / Imágenes
-- Tarifas
-
-Sin perder información.
-
-### Conclusión UX
-
-<div style="text-align: justify; line-height:1.7; margin-top:12px;">
-
-El diseño permite manejar configuraciones complejas sin fricción, adaptándose a distintos tipos de servicio y permitiendo una experiencia fluida incluso cuando la información no está completa.
-
-Esto es clave en escenarios reales donde los datos se completan progresivamente.
-</div>
+- E2E
+```http
+  Configuración → Tarifas → Cotización → File
+```

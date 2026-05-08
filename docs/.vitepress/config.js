@@ -157,7 +157,6 @@ export default defineConfig({
       '/developers/': [
         {
           text: 'Módulos',
-          collapsed: false,
           items: [
             {
               text: '🤝 Negociaciones 🚧', link: '/developers/negotiations/',
